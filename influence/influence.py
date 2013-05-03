@@ -77,7 +77,7 @@ def populate_from_text(filename):
 	       if '#' not in line:
 		    i = int(line.split(',')[0]) + 1
 		    j = int(line.split(',')[1]) + 1
-		    entry_list.append(author_entry("None", "None", i, j, 1))
+		    entry_list.append(author_entry("None", "None", str(i), str(j), str(1)))
 	  if data_file.closed != True:
 	       data_file.close()
      entry_list = adjust_weight(entry_list)
@@ -116,17 +116,7 @@ def populate_from_xml(filename):
 	       data_file.close()
 	  entry_list = adjust_weight(entry_list)
      return entry_list, topic_list, domain_list
-
-def author_entry_key_function(author_entry):
-     return (author_entry.domain, author_entry.topic, author_entry.author, author_entry.connection)
-
-def adjust_weight(data_list):
-     inf_list=[]
-     for key, subiter in itertools.groupby(data_list, author_entry_key_function):
-          inf_list.append(author_entry(key[0], key[1], key[2], key[3], sum(ae.weight for ae in subiter)))
-     return inf_list
      
-'''
 def adjust_weight(data_list):
      inf_list=[]
      for entry in data_list:
@@ -136,7 +126,6 @@ def adjust_weight(data_list):
 		    count += 1
 	  inf_list.append(author_entry(entry.domain, entry.topic, entry.author, entry.connection, count))
      return list(set(inf_list))
-'''
 
 def run_metric(metric_name, G, domain, topic, metric_weight, fileout, top_x):
      print '\n>> ' + metric_name + ' for ' + domain + " - " + topic
